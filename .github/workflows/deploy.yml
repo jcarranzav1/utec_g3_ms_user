@@ -13,28 +13,28 @@ jobs:
       contents: read 
 
     steps:
-      - name: 📥 Checkout code
+      - name: Checkout code
         uses: actions/checkout@v4
 
-      - name: 📦 Install pnpm
+      - name: Install pnpm
         run: npm install -g pnpm
 
-      - name: 🔧 Setup Node.js and pnpm
+      - name: Setup Node.js and pnpm
         uses: actions/setup-node@v4
         with:
           node-version: 22
           cache: pnpm
 
-      - name: 📦 Install dependencies
+      - name: Install dependencies
         run: pnpm install --frozen-lockfile
 
-      - name: 🔐 Configure AWS credentials (OIDC)
+      - name: Configure AWS credentials (OIDC)
         uses: aws-actions/configure-aws-credentials@v2
         with:
           role-to-assume: arn:aws:iam::654654589924:role/GitHubActionsDeployRole
           aws-region: us-east-1
 
-      - name: 🚀 Deploy with Serverless
+      - name: Deploy with Serverless
         run: pnpm run deploy
         env:
           USERS_TABLE: ${{ secrets.USERS_TABLE }}
