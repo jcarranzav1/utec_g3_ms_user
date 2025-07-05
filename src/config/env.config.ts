@@ -5,7 +5,7 @@ import { StageEnum } from "./const/enum";
 dotenv.config();
 
 const envSchema = z.object({
-  IAM_ROLE_ARN: z.string().min(1, "IAM_ROLE_ARN is required"),
+  IAM_ROLE_ARN: z.string().optional(),
   REST_API_ID: z.string().min(1, "REST_API_ID is required"),
   REST_API_ROOT_RESOURCE_ID: z
     .string()
