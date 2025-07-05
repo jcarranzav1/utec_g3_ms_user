@@ -1,0 +1,99 @@
+service: g3-users-service
+
+frameworkVersion: "3"
+
+plugins:
+  - serverless-dotenv-plugin
+  - serverless-esbuild
+  - serverless-offline    # opcional para desarrollo local
+
+
+useDotenv: true
+
+provider:
+  name: aws
+  runtime: nodejs18.x
+  region: us-east-1
+  stage: ${opt:stage, 'dev'}
+  environment:
+    USERS_TABLE: ${env:USERS_TABLE}
+    JWT_SECRET:  ${env:JWT_SECRET}
+    STAGE: ${self:provider.stage}
+
+  apiGateway:
+    restApiId: ${env:REST_API_ID}
+    restApiRootResourceId: ${env:REST_API_ROOT_RESOURCE_ID}
+
+  iamRoleStatements:
+  - Effect: Allow
+    Action:
+      - dynamodb:PutItem
+      - dynamodb:GetItem
+      - dynamodb:Query
+      - dynamodb:UpdateItem
+    Resource:
+      - arn:aws:dynamodb:${self:provider.region}:*:table/${env:USERS_TABLE}
+      - arn:aws:dynamodb:${self:provider.region}:*:table/${env:USERS_TABLE}/index/EmailIndex
+
+  - Effect: Allow
+    Action:
+      - logs:CreateLogGroup
+      - logs:CreateLogStream
+      - logs:PutLogEvents
+    Resource: "arn:aws:logs:${self:provider.region}:*:log-group:/aws/lambda/*"
+
+functions:
+  api:
+    name: g3_user_api_function
+    handler: src/handlers/handler.handler
+    events:
+      - http:
+          path: users/health
+          method: get
+          cors: true
+
+      - http:
+          path: users
+          method: post
+          cors: true
+
+      - http:
+          path: users/login
+          method: post
+          cors: true
+
+      - http:
+          path: users/profile
+          method: get
+          cors: true
+
+      - http:
+          path: users/profile
+          method: patch
+          cors: true
+
+      - http:
+          path: docs
+          method: get
+          cors: true
+
+      - http:
+          path: docs/{proxy+}
+          method: any
+          cors: true
+custom:
+  esbuild:
+    bundle: true
+    minify: false
+    sourcemap: true
+    exclude:
+      - aws-sdk
+    target: "node22"
+    platform: "node"
+    concurrency: 10
+    config: esbuild.config.js
+
+  serverless-offline:
+    prefix: api
+    noPrependStageInUrl: true
+

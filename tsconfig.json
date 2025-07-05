@@ -1,0 +1,30 @@
+{
+    "compilerOptions": {
+      "target": "ES2020",
+      "module": "commonjs",
+      "moduleResolution": "node",
+      "emitDecoratorMetadata": true,
+      "experimentalDecorators": true,
+      "allowSyntheticDefaultImports": true,
+      "strict": true,
+      "esModuleInterop": true,
+      "skipLibCheck": true,
+      "forceConsistentCasingInFileNames": true,
+      "strictNullChecks": false,
+      "noImplicitAny": false,
+      "strictBindCallApply": false,
+      "outDir": "dist",
+      "baseUrl": ".",
+      "paths": {
+        "*": ["node_modules/*"],
+        "@src/*": ["src/*"],
+        "@application/*": ["src/internal/application/*"],
+        "@domain/*": ["src/internal/domain/*"],
+        "@infrastructure/*": ["src/internal/infrastructure/*"],
+        "@config/*": ["src/config/*"],
+        "@shared/*": ["src/shared/*"]
+      },
+      
+    },
+    "include": ["src/**/*.ts", "src/config/types/**/*.d.ts"]
+  }
