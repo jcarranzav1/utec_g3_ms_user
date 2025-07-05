@@ -1,0 +1,43 @@
+name: Deploy to AWS with Serverless (OIDC)
+
+on:
+  push:
+    branches: [main]
+
+jobs:
+  deploy:
+    runs-on: ubuntu-latest
+
+    permissions:
+      id-token: write
+      contents: read 
+
+    steps:
+      - name: 📥 Checkout code
+        uses: actions/checkout@v4
+
+      - name: 🔧 Setup Node.js and pnpm
+        uses: actions/setup-node@v4
+        with:
+          node-version: 18
+          cache: pnpm
+
+      - name: 📦 Install pnpm
+        run: npm install -g pnpm
+
+      - name: 📦 Install dependencies
+        run: pnpm install --frozen-lockfile
+
+      - name: 🔐 Configure AWS credentials (OIDC)
+        uses: aws-actions/configure-aws-credentials@v2
+        with:
+          role-to-assume: arn:aws:iam::654654589924:role/GitHubActionsDeployRole
+          aws-region: us-east-1
+
+      - name: 🚀 Deploy with Serverless
+        run: pnpm run deploy
+        env:
+          USERS_TABLE: ${{ secrets.USERS_TABLE }}
+          JWT_SECRET: ${{ secrets.JWT_SECRET }}
+          REST_API_ID: ${{ secrets.REST_API_ID }}
+          REST_API_ROOT_RESOURCE_ID: ${{ secrets.REST_API_ROOT_RESOURCE_ID }}
