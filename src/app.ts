@@ -32,7 +32,7 @@ export function buildApp() {
     }
   );
 
-  const indexPrefix = NODE_ENV === StageEnum.LOCAL ? "" : `/${NODE_ENV}`;
+  const indexPrefix = NODE_ENV === StageEnum.LOCAL ? "" : "/dev";
   const swaggerSpec = yaml.load(
     fs.readFileSync(path.join(__dirname, "..", "swagger.yaml"), "utf8")
   );

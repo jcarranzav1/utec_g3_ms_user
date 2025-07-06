@@ -26,17 +26,13 @@ jobs:
         uses: actions/setup-node@v4
         with:
           node-version: 22
+          cache: 'pnpm'
+          
 
-      - name: 📦 Install pnpm
-        run: npm install -g pnpm
-
-      - name: 💾 Cache pnpm store
-        uses: actions/cache@v4
+      - name: Install pnpm
+        uses: pnpm/action-setup@v4
         with:
-          path: ~/.pnpm-store
-          key: ${{ runner.os }}-pnpm-store-${{ hashFiles('pnpm-lock.yaml') }}
-          restore-keys: |
-            ${{ runner.os }}-pnpm-store-
+          version: 10
 
 
       - name: 📦 Install dependencies
@@ -51,16 +47,3 @@ jobs:
 
       - name: Deploy with Serverless
         run: pnpm run deploy-prod
-      
-
-      - name: 🔍 Debug environment variables
-        run: |
-          echo "USERS_TABLE=$USERS_TABLE"
-          echo "REST_API_ID=$REST_API_ID"
-          echo "REST_API_ROOT_RESOURCE_ID=$REST_API_ROOT_RESOURCE_ID"
-          if [ -z "$JWT_SECRET" ]; then
-            echo "❌ JWT_SECRET is empty"
-            exit 1
-          else
-            echo "✅ JWT_SECRET length is ${#JWT_SECRET}"
-          fi
