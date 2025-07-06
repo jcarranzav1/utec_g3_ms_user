@@ -15,8 +15,10 @@ provider:
   runtime: nodejs22.x
   region: us-east-1
   environment:
-    USERS_TABLE: ${env:USERS_TABLE}
-    JWT_SECRET:  ${env:JWT_SECRET}
+    USERS_TABLE:               ${env:USERS_TABLE}
+    JWT_SECRET:                ${env:JWT_SECRET}
+    REST_API_ID:               ${env:REST_API_ID}
+    REST_API_ROOT_RESOURCE_ID: ${env:REST_API_ROOT_RESOURCE_ID}
 
   apiGateway:
     restApiId: ${env:REST_API_ID}
