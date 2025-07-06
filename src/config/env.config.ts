@@ -2,7 +2,9 @@ import { z } from "zod";
 import * as dotenv from "dotenv";
 import { StageEnum } from "./const/enum";
 
-dotenv.config();
+if (process.env.NODE_ENV === StageEnum.LOCAL) {
+  dotenv.config();
+}
 
 const envSchema = z.object({
   IAM_ROLE_ARN: z.string().optional(),
@@ -19,9 +21,7 @@ export type Env = z.infer<typeof envSchema>;
 let _env: Env | null = null;
 
 export function getEnv(): Env {
-  if (_env) {
-    return _env;
-  }
+  if (_env) return _env;
 
   dotenv.config();
 
