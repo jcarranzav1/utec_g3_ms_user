@@ -29,8 +29,6 @@ jobs:
 
       - name: Install pnpm
         uses: pnpm/action-setup@v4
-        with:
-          version: 10
 
       - name: Configure pnpm store-dir
         run: pnpm config set store-dir ~/.pnpm-store
