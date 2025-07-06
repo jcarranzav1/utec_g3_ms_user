@@ -14,11 +14,9 @@ provider:
   name: aws
   runtime: nodejs22.x
   region: us-east-1
-  stage: ${opt:stage, 'dev'}
   environment:
     USERS_TABLE: ${env:USERS_TABLE}
     JWT_SECRET:  ${env:JWT_SECRET}
-    STAGE: ${self:provider.stage}
 
   apiGateway:
     restApiId: ${env:REST_API_ID}
