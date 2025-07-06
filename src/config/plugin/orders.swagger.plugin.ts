@@ -24,7 +24,7 @@ export const ordersSwaggerPlugin: FastifyPluginAsync = async (app) => {
   });
 
   app.register(fastifySwaggerUi, {
-    routePrefix: "/api/docs/order",
+    routePrefix: "/api/docs/orders",
     indexPrefix,
     uiConfig: {
       docExpansion: "full",
