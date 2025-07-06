@@ -22,7 +22,7 @@ export function getEnv(): Env {
   const parsed = envSchema.safeParse(process.env);
   if (!parsed.success) {
     console.error(
-      "❌ Environment variable validation error:",
+      "Environment variable validation error:",
       parsed.error.format()
     );
     throw new Error("Invalid environment variables");
