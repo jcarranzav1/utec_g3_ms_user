@@ -14,7 +14,7 @@ const envSchema = z.object({
     .min(1, "REST_API_ROOT_RESOURCE_ID is required"),
   USERS_TABLE: z.string().min(1, "USERS_TABLE is required"),
   JWT_SECRET: z.string().min(1, "JWT_SECRET is required"),
-  STAGE: z.string().min(1, "STAGE is required").default(StageEnum.LOCAL),
+  NODE_ENV: z.string().default(StageEnum.DEVELOP),
 });
 export type Env = z.infer<typeof envSchema>;
 
