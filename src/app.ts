@@ -17,7 +17,7 @@ export function buildApp() {
     logger: true,
   });
 
-  const { JWT_SECRET, STAGE } = getEnv();
+  const { JWT_SECRET, NODE_ENV } = getEnv();
 
   app.register(fastifyJwt, { secret: JWT_SECRET });
 
@@ -32,7 +32,7 @@ export function buildApp() {
     }
   );
 
-  const indexPrefix = STAGE === StageEnum.LOCAL ? "" : `/${STAGE}`;
+  const indexPrefix = NODE_ENV === StageEnum.LOCAL ? "" : `/${NODE_ENV}`;
   const swaggerSpec = yaml.load(
     fs.readFileSync(path.join(__dirname, "..", "swagger.yaml"), "utf8")
   );
