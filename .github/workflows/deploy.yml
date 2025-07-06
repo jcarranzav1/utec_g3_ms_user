@@ -44,7 +44,7 @@ jobs:
           aws-region: us-east-1
 
       - name: Deploy with Serverless
-        run: pnpm run deploy
+        run: pnpm run deploy-prod
         env:
           USERS_TABLE: ${{ secrets.USERS_TABLE }}
           JWT_SECRET: ${{ secrets.JWT_SECRET }}
