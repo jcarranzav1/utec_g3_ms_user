@@ -92,6 +92,16 @@ functions:
           path: kpis/docs/{proxy+}
           method: any
           cors: true
+
+      - http:
+          path: orders/docs
+          method: get
+          cors: true
+
+      - http:
+          path: orders/docs/{proxy+}
+          method: any
+          cors: true
 custom:
   esbuild:
     bundle: true

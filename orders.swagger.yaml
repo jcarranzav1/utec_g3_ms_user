@@ -1,0 +1,426 @@
+openapi: 3.0.0
+info:
+  title: Orders Service
+  description: API para crear, actualizar, obtener y eliminar órdenes
+  version: 1.0.0
+
+servers:
+  - url: /dev/api
+    description: Stage DEV
+
+tags:
+  - name: Orders
+    description: Operaciones relacionadas con órdenes (crear, actualizar, obtener, eliminar)
+
+paths:
+  /order:
+    post:
+      summary: Crear orden
+      description: Crea una nueva orden con los datos enviados en el body.
+      tags:
+        - Orders
+      requestBody:
+        required: true
+        content:
+          application/json:
+            schema:
+              $ref: '#/components/schemas/OrderRequest'
+            example:
+              UserId: "123e4567-e89b-12d3-a456-426614174000"
+              OrderId: "ORD-1001"
+              Address:
+                Reference: "Casa"
+                Country: "Perú"
+                Default: true
+                City: "Lima"
+                Location:
+                  Lat: -12.0464
+                  Lon: -77.0428
+                State: "Lima"
+                Type: "Residencial"
+                Line1: "Av. Insurgentes 123"
+                Line2: "Dept. 4B"
+              CreatedAt: "2025-07-06T14:30:00Z"
+              DeliveredAt: "2025-07-07T18:45:00Z"
+              DeliveryRating: 5
+              DeliveryStartedAt: "2025-07-06T15:00:00Z"
+              Items:
+                - SkuId: "SKU-001"
+                  Price: 99.99
+                  Quantity: 2
+                - SkuId: "SKU-002"
+                  Price: 49.50
+                  Quantity: 1
+              Notes: "Dejar en conserjería si no hay nadie"
+              PaidAt: "2025-07-06T14:35:00Z"
+              PaymentMethod: "CreditCard"
+              Status: "Pendiente"
+              StoreId: "STORE-123"
+              TotalAmount: 249.48
+              TrackingStatus: "En preparación"
+      responses:
+        '200':
+          description: Orden creada correctamente
+          content:
+            application/json:
+              schema:
+                $ref: '#/components/schemas/OrderResponse'
+              example:
+                order: "ORD-1001"
+                detail: "Orden procesada correctamente"
+                httpStatusCode: 200
+                data:
+                  UserId: "123e4567-e89b-12d3-a456-426614174000"
+                  OrderId: "ORD-1001"
+                  Address:
+                    Reference: "Casa"
+                    Country: "Perú"
+                    Default: true
+                    City: "Lima"
+                    Location:
+                      Lat: -12.0464
+                      Lon: -77.0428
+                    State: "Lima"
+                    Type: "Residencial"
+                    Line1: "Av. Insurgentes 123"
+                    Line2: "Dept. 4B"
+                  CreatedAt: "2025-07-06T14:30:00Z"
+                  DeliveredAt: "2025-07-07T18:45:00Z"
+                  DeliveryRating: 5
+                  DeliveryStartedAt: "2025-07-06T15:00:00Z"
+                  Items:
+                    - SkuId: "SKU-001"
+                      Price: 99.99
+                      Quantity: 2
+                    - SkuId: "SKU-002"
+                      Price: 49.50
+                      Quantity: 1
+                  Notes: "Dejar en conserjería si no hay nadie"
+                  PaidAt: "2025-07-06T14:35:00Z"
+                  PaymentMethod: "CreditCard"
+                  Status: "Pendiente"
+                  StoreId: "STORE-123"
+                  TotalAmount: 249.48
+                  TrackingStatus: "En preparación"
+
+    put:
+      summary: Actualizar orden
+      description: Actualiza una orden existente con los nuevos datos.
+      tags:
+        - Orders
+      requestBody:
+        required: true
+        content:
+          application/json:
+            schema:
+              $ref: '#/components/schemas/OrderRequest'
+            example:
+              # mismo ejemplo que en POST
+              example:
+                order: "ORD-1001"
+                detail: "Orden procesada correctamente"
+                httpStatusCode: 200
+                data:
+                  UserId: "123e4567-e89b-12d3-a456-426614174000"
+                  OrderId: "ORD-1001"
+                  Address:
+                    Reference: "Casa"
+                    Country: "Perú"
+                    Default: true
+                    City: "Lima"
+                    Location:
+                      Lat: -12.0464
+                      Lon: -77.0428
+                    State: "Lima"
+                    Type: "Residencial"
+                    Line1: "Av. Insurgentes 123"
+                    Line2: "Dept. 4B"
+                  CreatedAt: "2025-07-06T14:30:00Z"
+                  DeliveredAt: "2025-07-07T18:45:00Z"
+                  DeliveryRating: 5
+                  DeliveryStartedAt: "2025-07-06T15:00:00Z"
+                  Items:
+                    - SkuId: "SKU-001"
+                      Price: 99.99
+                      Quantity: 2
+                    - SkuId: "SKU-002"
+                      Price: 49.50
+                      Quantity: 1
+                  Notes: "Dejar en conserjería si no hay nadie"
+                  PaidAt: "2025-07-06T14:35:00Z"
+                  PaymentMethod: "CreditCard"
+                  Status: "Pendiente"
+                  StoreId: "STORE-123"
+                  TotalAmount: 249.48
+                  TrackingStatus: "En preparación"
+      responses:
+        '200':
+          description: Orden actualizada correctamente
+          content:
+            application/json:
+              schema:
+                $ref: '#/components/schemas/OrderResponse'
+              example:
+                order: "ORD-1001"
+                detail: "Orden actualizada correctamente"
+                httpStatusCode: 200
+                data: {}   # aquí podrías repetir el objeto actualizado
+
+    get:
+      summary: Obtener orden por ID
+      description: Obtiene una orden específica usando `UserId` y `OrderId` (pasados en el body).
+      tags:
+        - Orders
+      requestBody:
+        required: true
+        content:
+          application/json:
+            schema:
+              $ref: '#/components/schemas/OrderRequest'
+            example:
+              UserId: "123e4567-e89b-12d3-a456-426614174000"
+              OrderId: "ORD-1001"
+      responses:
+        '200':
+          description: Orden obtenida con éxito
+          content:
+            application/json:
+              schema:
+                $ref: '#/components/schemas/OrderResponse'
+              example:
+                order: "ORD-1001"
+                detail: "Orden encontrada"
+                httpStatusCode: 200
+                data: {}  # objeto de orden
+
+    delete:
+      summary: Eliminar orden
+      description: Elimina una orden específica por `UserId` y `OrderId`.
+      tags:
+        - Orders
+      requestBody:
+        required: true
+        content:
+          application/json:
+            schema:
+              $ref: '#/components/schemas/OrderRequest'
+            example:
+              UserId: "123e4567-e89b-12d3-a456-426614174000"
+              OrderId: "ORD-1001"
+      responses:
+        '200':
+          description: Orden eliminada correctamente
+          content:
+            application/json:
+              schema:
+                $ref: '#/components/schemas/OrderResponse'
+              example:
+                order: "ORD-1001"
+                detail: "Orden eliminada"
+                httpStatusCode: 200
+                data: null
+
+components:
+  securitySchemes:
+    bearerAuth:
+      type: http
+      scheme: bearer
+      bearerFormat: JWT
+
+  schemas:
+    OrderRequest:
+      type: object
+      properties:
+        UserId:
+          type: string
+          format: uuid
+        OrderId:
+          type: string
+        Address:
+          $ref: '#/components/schemas/Address'
+        CreatedAt:
+          type: string
+          format: date-time
+        DeliveredAt:
+          type: string
+          format: date-time
+        DeliveryRating:
+          type: integer
+        DeliveryStartedAt:
+          type: string
+          format: date-time
+        Items:
+          type: array
+          items:
+            $ref: '#/components/schemas/OrderItem'
+        Notes:
+          type: string
+        PaidAt:
+          type: string
+          format: date-time
+        PaymentMethod:
+          type: string
+        Status:
+          type: string
+        StoreId:
+          type: string
+        TotalAmount:
+          type: number
+        TrackingStatus:
+          type: string
+      required:
+        - UserId
+        - OrderId
+        - Address
+        - Items
+        - TotalAmount
+      example:
+        UserId: "123e4567-e89b-12d3-a456-426614174000"
+        OrderId: "ORD-1001"
+        Address:
+          Reference: "Casa"
+          Country: "Perú"
+          Default: true
+          City: "Lima"
+          Location:
+            Lat: -12.0464
+            Lon: -77.0428
+          State: "Lima"
+          Type: "Residencial"
+          Line1: "Av. Insurgentes 123"
+          Line2: "Dept. 4B"
+        CreatedAt: "2025-07-06T14:30:00Z"
+        DeliveredAt: "2025-07-07T18:45:00Z"
+        DeliveryRating: 5
+        DeliveryStartedAt: "2025-07-06T15:00:00Z"
+        Items:
+          - SkuId: "SKU-001"
+            Price: 99.99
+            Quantity: 2
+          - SkuId: "SKU-002"
+            Price: 49.50
+            Quantity: 1
+        Notes: "Dejar en conserjería si no hay nadie"
+        PaidAt: "2025-07-06T14:35:00Z"
+        PaymentMethod: "CreditCard"
+        Status: "Pendiente"
+        StoreId: "STORE-123"
+        TotalAmount: 249.48
+        TrackingStatus: "En preparación"
+
+    OrderItem:
+      type: object
+      properties:
+        SkuId:
+          type: string
+        Price:
+          type: number
+        Quantity:
+          type: integer
+      required:
+        - SkuId
+        - Price
+        - Quantity
+      example:
+        SkuId: "SKU-001"
+        Price: 99.99
+        Quantity: 2
+
+    Address:
+      type: object
+      properties:
+        Reference:
+          type: string
+        Country:
+          type: string
+        Default:
+          type: boolean
+        City:
+          type: string
+        Location:
+          $ref: '#/components/schemas/Location'
+        State:
+          type: string
+        Type:
+          type: string
+        Line1:
+          type: string
+        Line2:
+          type: string
+      example:
+        Reference: "Casa"
+        Country: "Perú"
+        Default: true
+        City: "Lima"
+        Location:
+          Lat: -12.0464
+          Lon: -77.0428
+        State: "Lima"
+        Type: "Residencial"
+        Line1: "Av. Insurgentes 123"
+        Line2: "Dept. 4B"
+
+    Location:
+      type: object
+      properties:
+        Lat:
+          type: number
+        Lon:
+          type: number
+      example:
+        Lat: -12.0464
+        Lon: -77.0428
+
+    OrderResponse:
+      type: object
+      properties:
+        order:
+          type: string
+        detail:
+          type: string
+        httpStatusCode:
+          type: integer
+        data:
+          $ref: '#/components/schemas/OrderRequest'
+          nullable: true
+      required:
+        - order
+        - detail
+        - httpStatusCode
+      example:
+        order: "ORD-1001"
+        detail: "Operación exitosa"
+        httpStatusCode: 200
+        data:
+          UserId: "123e4567-e89b-12d3-a456-426614174000"
+          OrderId: "ORD-1001"
+          Address:
+            Reference: "Casa"
+            Country: "Perú"
+            Default: true
+            City: "Lima"
+            Location:
+              Lat: -12.0464
+              Lon: -77.0428
+            State: "Lima"
+            Type: "Residencial"
+            Line1: "Av. Insurgentes 123"
+            Line2: "Dept. 4B"
+          CreatedAt: "2025-07-06T14:30:00Z"
+          DeliveredAt: "2025-07-07T18:45:00Z"
+          DeliveryRating: 5
+          DeliveryStartedAt: "2025-07-06T15:00:00Z"
+          Items:
+            - SkuId: "SKU-001"
+              Price: 99.99
+              Quantity: 2
+            - SkuId: "SKU-002"
+              Price: 49.50
+              Quantity: 1
+          Notes: "Dejar en conserjería si no hay nadie"
+          PaidAt: "2025-07-06T14:35:00Z"
+          PaymentMethod: "CreditCard"
+          Status: "Pendiente"
+          StoreId: "STORE-123"
+          TotalAmount: 249.48
+          TrackingStatus: "En preparación"
