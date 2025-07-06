@@ -15,4 +15,5 @@ export enum UserTypeEnum {
 export enum StageEnum {
   LOCAL = "local",
   DEVELOP = "develop",
+  PRODUCTION = "production",
 }

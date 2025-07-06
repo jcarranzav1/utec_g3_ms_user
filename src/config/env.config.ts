@@ -2,7 +2,7 @@ import { z } from "zod";
 import * as dotenv from "dotenv";
 import { StageEnum } from "./const/enum";
 
-if (process.env.NODE_ENV === StageEnum.LOCAL) {
+if (process.env.NODE_ENV !== StageEnum.PRODUCTION) {
   dotenv.config();
 }
 
@@ -22,8 +22,6 @@ let _env: Env | null = null;
 
 export function getEnv(): Env {
   if (_env) return _env;
-
-  dotenv.config();
 
   const parsed = envSchema.safeParse(process.env);
   if (!parsed.success) {
