@@ -54,4 +54,4 @@ jobs:
           aws-region: us-east-1
 
       - name: Deploy with Serverless
-        run: pnpm run deploy-prod
+        run: pnpm run deploy
