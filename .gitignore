@@ -60,3 +60,10 @@ dev-cardbook-connect-ec2-key-us-east-2.pem
 
 # Firebase File
 firebase-connection.json
+
+
+# Serverless Framework
+.serverless/
+
+# esbuild output
+.esbuild/
