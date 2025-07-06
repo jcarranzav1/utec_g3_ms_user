@@ -15,6 +15,7 @@ provider:
   runtime: nodejs22.x
   region: us-east-1
   environment:
+    NODE_ENV:               ${env:NODE_ENV}
     USERS_TABLE:               ${env:USERS_TABLE}
     JWT_SECRET:                ${env:JWT_SECRET}
     REST_API_ID:               ${env:REST_API_ID}
@@ -73,12 +74,12 @@ functions:
           cors: true
 
       - http:
-          path: docs
+          path: users/docs
           method: get
           cors: true
 
       - http:
-          path: docs/{proxy+}
+          path: users/docs/{proxy+}
           method: any
           cors: true
 custom:

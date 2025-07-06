@@ -1,10 +1,7 @@
 import { z } from "zod";
 import * as dotenv from "dotenv";
-import { StageEnum } from "./const/enum";
 
-if (process.env.NODE_ENV !== StageEnum.PRODUCTION) {
-  dotenv.config();
-}
+dotenv.config();
 
 const envSchema = z.object({
   REST_API_ID: z.string().min(1, "REST_API_ID is required"),
@@ -13,7 +10,7 @@ const envSchema = z.object({
     .min(1, "REST_API_ROOT_RESOURCE_ID is required"),
   USERS_TABLE: z.string().min(1, "USERS_TABLE is required"),
   JWT_SECRET: z.string().min(1, "JWT_SECRET is required"),
-  NODE_ENV: z.string().default(StageEnum.DEVELOP),
+  NODE_ENV: z.string().min(1, "NODE_END IS REQUIRED"),
 });
 export type Env = z.infer<typeof envSchema>;
 

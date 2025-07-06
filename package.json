@@ -6,8 +6,7 @@
   "scripts": {
     "test": "echo \"Error: no test specified\" && exit 1",
     "build": "tsc",
-    "deploy-dev": "pnpm run build && cross-env NODE_ENV=develop serverless deploy",
-    "deploy-prod": "pnpm run build && cross-env NODE_ENV=production serverless deploy",
+    "deploy": "pnpm run build && cross-env NODE_ENV=develop serverless deploy",
     "offline": "cross-env NODE_ENV=local serverless offline "
   },
   "keywords": [],

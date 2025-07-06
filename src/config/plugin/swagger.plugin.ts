@@ -1,38 +1,46 @@
+// File: src/plugins/swagger.ts
 import fp from "fastify-plugin";
-import swagger from "@fastify/swagger";
-import swaggerUi from "@fastify/swagger-ui";
-import { FastifyInstance } from "fastify";
+import { FastifyPluginAsync } from "fastify";
+import fastifySwagger, { FastifyStaticSwaggerOptions } from "@fastify/swagger";
+import fastifySwaggerUi from "@fastify/swagger-ui";
+import path from "path";
+import fs from "fs";
+import yaml from "js-yaml";
+import { getEnv } from "@config/env.config";
+import { StageEnum } from "@config/const/enum";
 
-export const swaggerPlugin = fp(async (app: FastifyInstance) => {
-  await app.register(swagger, {
-    openapi: {
-      info: {
-        title: "Users Service",
-        description: "API para gestionar usuarios",
-        version: "1.0.0",
-      },
-      servers: [{ url: "/dev/api", description: "Stage dev" }],
-      components: {
-        securitySchemes: {
-          bearerAuth: {
-            type: "http",
-            scheme: "bearer",
-            bearerFormat: "JWT",
-          },
-        },
-      },
-      security: [{ bearerAuth: [] }],
+const swaggerPlugin: FastifyPluginAsync = async (app) => {
+  const { NODE_ENV } = getEnv();
+
+  const indexPrefix = NODE_ENV === StageEnum.LOCAL ? "" : "/dev";
+  const swaggerSpec = yaml.load(
+    fs.readFileSync(
+      path.join(path.resolve(process.cwd(), "swagger.yaml")),
+      "utf8"
+    )
+  );
+
+  app.register<FastifyStaticSwaggerOptions>(fastifySwagger, {
+    mode: "static",
+    specification: {
+      document: swaggerSpec,
+      baseDir: process.cwd(),
     },
   });
 
-  await app.register(swaggerUi, {
+  app.register(fastifySwaggerUi, {
     routePrefix: "/api/users/docs",
+    indexPrefix,
     uiConfig: {
       docExpansion: "full",
       deepLinking: false,
     },
+    staticCSP: true,
+    transformStaticCSP: (header) => header,
+    baseDir: path.join(__dirname, "static"),
   });
+};
 
-  await app.ready();
-  app.swagger();
+export default fp(swaggerPlugin, {
+  name: "swagger-plugin",
 });
