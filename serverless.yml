@@ -12,7 +12,7 @@ useDotenv: true
 
 provider:
   name: aws
-  runtime: nodejs22.x
+  runtime: nodejs20.x
   region: us-east-1
   environment:
     NODE_ENV:               ${env:NODE_ENV}
@@ -74,32 +74,32 @@ functions:
           cors: true
 
       - http:
-          path: users/docs
+          path: docs/users
           method: get
           cors: true
 
       - http:
-          path: users/docs/{proxy+}
+          path: docs/users/{proxy+}
           method: any
           cors: true
 
       - http:
-          path: kpis/docs
+          path: docs/kpis
           method: get
           cors: true
 
       - http:
-          path: kpis/docs/{proxy+}
+          path: docs/kpis/{proxy+}
           method: any
           cors: true
 
       - http:
-          path: order/docs
+          path: docs/order
           method: get
           cors: true
 
       - http:
-          path: order/docs/{proxy+}
+          path: docs/order/{proxy+}
           method: any
           cors: true
 custom:

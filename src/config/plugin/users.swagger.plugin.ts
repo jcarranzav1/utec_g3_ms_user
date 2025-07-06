@@ -24,7 +24,7 @@ export const usersSwaggerPlugin: FastifyPluginAsync = async (app) => {
   });
 
   app.register(fastifySwaggerUi, {
-    routePrefix: "/api/users/docs",
+    routePrefix: "/api/docs/users",
     indexPrefix,
     uiConfig: {
       docExpansion: "full",

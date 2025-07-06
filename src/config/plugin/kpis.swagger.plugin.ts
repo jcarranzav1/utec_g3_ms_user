@@ -24,7 +24,7 @@ export const kpisSwaggerPlugin: FastifyPluginAsync = async (app) => {
   });
 
   app.register(fastifySwaggerUi, {
-    routePrefix: "/api/kpis/docs",
+    routePrefix: "/api/docs/kpis",
     indexPrefix,
     uiConfig: {
       docExpansion: "full",
