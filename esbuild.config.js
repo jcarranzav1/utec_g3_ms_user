@@ -19,8 +19,13 @@ module.exports = (serverless) => ({
     }),
 
     copyStatic({
-      src: path.resolve(__dirname, "swagger.yaml"),
-      dest: path.resolve(__dirname, ".esbuild/.build/src/swagger.yaml"),
+      src: path.resolve(__dirname, "users.swagger.yaml"),
+      dest: path.resolve(__dirname, ".esbuild/.build/src/users.swagger.yaml"),
+    }),
+
+    copyStatic({
+      src: path.resolve(__dirname, "kpis.swagger.yaml"),
+      dest: path.resolve(__dirname, ".esbuild/.build/src/kpis.swagger.yaml"),
     }),
   ],
 });

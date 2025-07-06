@@ -1,9 +1,10 @@
 // src/app.ts
-import Fastify, { FastifyReply, FastifyRequest } from "fastify";
+import Fastify from "fastify";
 import { userRoutes } from "@infrastructure/routes/user.routes";
 import "reflect-metadata";
 import jwtPlugin from "@config/plugin/jwt-auth.plugin";
-import swaggerPlugin from "@config/plugin/swagger.plugin";
+import { usersSwaggerPlugin } from "@config/plugin/users.swagger.plugin";
+import { kpisSwaggerPlugin } from "@config/plugin/kpis.swagger.plugin";
 
 export function buildApp() {
   const app = Fastify({
@@ -11,7 +12,8 @@ export function buildApp() {
   });
 
   app.register(jwtPlugin);
-  app.register(swaggerPlugin);
+  app.register(usersSwaggerPlugin, {});
+  app.register(kpisSwaggerPlugin, {});
 
   app.register(
     async (fastify) => {
@@ -19,10 +21,6 @@ export function buildApp() {
     },
     { prefix: "/api" }
   );
-
-  app.ready().then(() => {
-    app.swagger();
-  });
 
   return app;
 }

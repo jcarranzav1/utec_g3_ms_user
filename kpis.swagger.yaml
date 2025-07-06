@@ -1,0 +1,150 @@
+openapi: 3.0.3
+info:
+  title: KPIs API
+  description: Endpoint para obtener KPIs mensuales del e-commerce.
+  version: 1.0.0
+
+servers:
+  - url: https://im99e6l0ng.execute-api.us-east-1.amazonaws.com/dev
+
+paths:
+  /kpis:
+    get:
+      summary: Obtener KPIs mensuales
+      description: Retorna indicadores clave de desempeño para el mes y año especificados.
+      parameters:
+        - name: anio
+          in: query
+          required: true
+          schema:
+            type: string
+            example: "2025"
+        - name: mes
+          in: query
+          required: true
+          schema:
+            type: string
+            example: "05"
+      responses:
+        '200':
+          description: Respuesta exitosa con KPIs
+          content:
+            application/json:
+              schema:
+                type: object
+                properties:
+                  ticketPromedio:
+                    type: number
+                    format: float
+                    description: Monto promedio por ticket de venta (S/).
+                  totalVentasSoles:
+                    type: integer
+                    description: Total de ventas en soles.
+                  totalVentasCantidad:
+                    type: integer
+                    description: Total de órdenes realizadas.
+                  nuevosUsuarios:
+                    type: integer
+                    description: Número de nuevos usuarios registrados en el mes.
+                  usuariosUnicos:
+                    type: integer
+                    description: Total de usuarios únicos que realizaron compras.
+                  usuariosRecurrentes:
+                    type: integer
+                    description: Usuarios que compraron más de una vez.
+                  tiempoPromedioEntrega:
+                    type: number
+                    format: float
+                    description: Tiempo promedio de entrega (en horas o días, según implementación).
+                  ltvPromedio:
+                    type: number
+                    format: float
+                    description: Valor promedio del cliente a lo largo del tiempo (LTV).
+                  ventasPorCategoria:
+                    type: object
+                    description: Monto total vendido por categoría de producto.
+                    additionalProperties:
+                      type: integer
+                  ventasPorDistrito:
+                    type: object
+                    description: Monto total vendido por distrito.
+                    additionalProperties:
+                      type: integer
+                  topProductos:
+                    type: array
+                    description: Lista de los productos más vendidos.
+                    items:
+                      type: object
+                      properties:
+                        nombre:
+                          type: string
+                          description: Nombre del producto.
+                        cantidad:
+                          type: integer
+                          description: Cantidad de unidades vendidas.
+                  parametros:
+                    type: object
+                    description: Parámetros usados para generar los KPIs.
+                    properties:
+                      anio:
+                        type: string
+                        description: Año consultado.
+                      mes:
+                        type: string
+                        description: Mes consultado.
+                example:
+                  ticketPromedio: 11918.79475
+                  totalVentasSoles: 47675179
+                  totalVentasCantidad: 4000
+                  nuevosUsuarios: 247
+                  usuariosUnicos: 185
+                  usuariosRecurrentes: 185
+                  tiempoPromedioEntrega: 0
+                  ltvPromedio: 257703.67027027026
+                  ventasPorCategoria:
+                    Consolas: 14621931
+                    Juegos: 1478818
+                    Hardware: 3871923
+                    Tarjetas gráficas: 27702507
+                  ventasPorDistrito:
+                    Santiago de Surco: 3820565
+                    San Borja: 6579357
+                    Miraflores: 6847102
+                    Pueblo Libre: 6166216
+                    La Molina: 6809586
+                    Los Olivos: 6370914
+                    San Isidro: 4067514
+                    San Miguel: 4039370
+                    Rimac: 2974555
+                  topProductos:
+                    - nombre: Xbox Series S
+                      cantidad: 872
+                    - nombre: Mario Kart 8 Deluxe
+                      cantidad: 837
+                    - nombre: The Last of Us Part II
+                      cantidad: 835
+                  parametros:
+                    anio: "2025"
+                    mes: "05"
+        '401':
+          description: Token inválido o expirado
+          content:
+            application/json:
+              schema:
+                type: object
+                properties:
+                  error:
+                    type: string
+                    example: Token inválido o expirado
+                  details:
+                    type: string
+                    example: Token missing or malformed
+      security:
+        - bearerAuth: []
+
+components:
+  securitySchemes:
+    bearerAuth:
+      type: http
+      scheme: bearer
+      bearerFormat: JWT

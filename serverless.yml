@@ -82,6 +82,16 @@ functions:
           path: users/docs/{proxy+}
           method: any
           cors: true
+
+      - http:
+          path: kpis/docs
+          method: get
+          cors: true
+
+      - http:
+          path: kpis/docs/{proxy+}
+          method: any
+          cors: true
 custom:
   esbuild:
     bundle: true
@@ -97,4 +107,3 @@ custom:
   serverless-offline:
     prefix: api
     noPrependStageInUrl: true
-

@@ -4,11 +4,12 @@ info:
   description: API para gestionar usuarios
   version: 1.0.0
 servers:
+  - url: /dev/api
+    description: Stage DEV
+    
   - url: /api
     description: Stage local
 
-  - url: /dev/api
-    description: Stage DEV
 
 paths:
   /users:
