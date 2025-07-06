@@ -1,5 +1,3 @@
-// src/domain/ports/IUserRepository.ts
-
 import { UserEntity } from "../entity/user";
 
 export interface IUserRepository {

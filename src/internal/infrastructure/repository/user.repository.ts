@@ -1,4 +1,3 @@
-// src/infrastructure/repository/UserRepository.ts
 import { injectable } from "inversify";
 import {
   DynamoDBClient,

@@ -1,4 +1,3 @@
-// File: src/plugins/swagger.ts
 import { FastifyPluginAsync } from "fastify";
 import fastifySwagger, { FastifyStaticSwaggerOptions } from "@fastify/swagger";
 import fastifySwaggerUi from "@fastify/swagger-ui";

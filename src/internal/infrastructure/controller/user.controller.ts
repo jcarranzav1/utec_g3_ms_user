@@ -1,5 +1,4 @@
 import { JwtResponse } from "./../../application/dto/jwt/token.response.dto";
-// src/infrastructure/controller/UserController.ts
 import { injectable, inject } from "inversify";
 import { FastifyRequest, FastifyReply } from "fastify";
 import { TYPES } from "@config/inversify/types";

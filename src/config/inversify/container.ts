@@ -1,5 +1,4 @@
 import { HealthController } from "./../../internal/infrastructure/controller/health.controller";
-// src/inversify/inversify.config.ts
 import "reflect-metadata";
 
 import { Container } from "inversify";
@@ -12,7 +11,6 @@ import { IUserRepository } from "@domain/ports/user.port";
 
 const container = new Container();
 
-// Bindings
 container
   .bind<IUserService>(TYPES.IUserService)
   .to(UserService)

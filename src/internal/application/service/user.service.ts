@@ -13,8 +13,6 @@ import { JwtPayloadDto } from "../dto/jwt/token.payload.dto";
 @injectable()
 export class UserService implements IUserService {
   constructor(
-    // crear entidad y hash
-
     @inject(TYPES.IUserRepository) private userRepository: UserRepository
   ) {}
 

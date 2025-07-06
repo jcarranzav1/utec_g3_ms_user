@@ -1,4 +1,3 @@
-// src/app.ts
 import Fastify from "fastify";
 import { userRoutes } from "@infrastructure/routes/user.routes";
 import "reflect-metadata";
