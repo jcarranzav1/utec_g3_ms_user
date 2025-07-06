@@ -94,12 +94,12 @@ functions:
           cors: true
 
       - http:
-          path: orders/docs
+          path: order/docs
           method: get
           cors: true
 
       - http:
-          path: orders/docs/{proxy+}
+          path: order/docs/{proxy+}
           method: any
           cors: true
 custom:
