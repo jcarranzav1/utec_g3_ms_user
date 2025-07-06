@@ -7,7 +7,6 @@ if (process.env.NODE_ENV !== StageEnum.PRODUCTION) {
 }
 
 const envSchema = z.object({
-  IAM_ROLE_ARN: z.string().optional(),
   REST_API_ID: z.string().min(1, "REST_API_ID is required"),
   REST_API_ROOT_RESOURCE_ID: z
     .string()

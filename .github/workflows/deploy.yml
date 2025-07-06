@@ -12,6 +12,12 @@ jobs:
       id-token: write
       contents: read 
 
+    env:
+      USERS_TABLE: ${{ secrets.USERS_TABLE }}
+      JWT_SECRET: ${{ secrets.JWT_SECRET }}
+      REST_API_ID: ${{ secrets.REST_API_ID }}
+      REST_API_ROOT_RESOURCE_ID: ${{ secrets.REST_API_ROOT_RESOURCE_ID }}
+
     steps:
       - name: Checkout code
         uses: actions/checkout@v4
@@ -45,20 +51,13 @@ jobs:
 
       - name: Deploy with Serverless
         run: pnpm run deploy-prod
-        env:
-          USERS_TABLE: ${{ secrets.USERS_TABLE }}
-          JWT_SECRET: ${{ secrets.JWT_SECRET }}
-          REST_API_ID: ${{ secrets.REST_API_ID }}
-          REST_API_ROOT_RESOURCE_ID: ${{ secrets.REST_API_ROOT_RESOURCE_ID }}
+      
 
       - name: 🔍 Debug environment variables
         run: |
-          # Imprime el valor (enmascarado) de las variables no sensibles
           echo "USERS_TABLE=$USERS_TABLE"
           echo "REST_API_ID=$REST_API_ID"
           echo "REST_API_ROOT_RESOURCE_ID=$REST_API_ROOT_RESOURCE_ID"
-
-          # Comprueba que JWT_SECRET y JWT_SECRET existan mostrando su longitud
           if [ -z "$JWT_SECRET" ]; then
             echo "❌ JWT_SECRET is empty"
             exit 1
