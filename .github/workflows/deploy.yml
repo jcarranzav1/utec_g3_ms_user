@@ -2,7 +2,7 @@ name: Deploy to AWS with Serverless (OIDC)
 
 on:
   push:
-    branches: [main]
+    branches: [ main ]
 
 jobs:
   deploy:
@@ -10,7 +10,7 @@ jobs:
 
     permissions:
       id-token: write
-      contents: read 
+      contents: read
 
     env:
       USERS_TABLE: ${{ secrets.USERS_TABLE }}
@@ -25,14 +25,14 @@ jobs:
       - name: 🔧 Setup Node.js
         uses: actions/setup-node@v4
         with:
-          node-version: 22          
+          node-version: 22
 
       - name: Install pnpm
         uses: pnpm/action-setup@v4
 
       - name: Configure pnpm store-dir
         run: pnpm config set store-dir ~/.pnpm-store
-      
+
       - name: Cache pnpm store
         uses: actions/cache@v4
         with:
@@ -52,6 +52,19 @@ jobs:
         with:
           role-to-assume: arn:aws:iam::654654589924:role/GitHubActionsDeployRole
           aws-region: us-east-1
+
+      - name: Build Swagger static
+        run: pnpm run build:swagger-static
+
+      - name: Sync Swagger to S3
+        run: |
+          aws s3 sync ./swagger-static/ s3://${{ env.SWAGGER_BUCKET }}/
+
+      - name: Invalidate CloudFront cache
+        run: |
+          aws cloudfront create-invalidation \
+            --distribution-id ${{ env.CLOUDFRONT_DISTRIBUTION_ID }} \
+            --paths "/*"
 
       - name: Deploy with Serverless
         run: pnpm run deploy

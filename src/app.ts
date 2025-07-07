@@ -1,27 +1,30 @@
 import Fastify from "fastify";
-import { userRoutes } from "@infrastructure/routes/user.routes";
+import fastifyCors from '@fastify/cors';
+import { userRoutes } from "@infrastructure/routes/userRoutes";
 import "reflect-metadata";
 import jwtPlugin from "@config/plugin/jwt-auth.plugin";
-import { usersSwaggerPlugin } from "@config/plugin/users.swagger.plugin";
-import { kpisSwaggerPlugin } from "@config/plugin/kpis.swagger.plugin";
-import { ordersSwaggerPlugin } from "@config/plugin/orders.swagger.plugin";
+import { swaggerRoutes } from '@infrastructure/routes/docsRoutes'
+
 
 export function buildApp() {
-  const app = Fastify({
-    logger: true,
-  });
+    const app = Fastify({
+        logger: true,
+    });
+    app.register(fastifyCors, {
+        origin: '*',
+        methods: ['GET', 'HEAD', 'PUT', 'PATCH', 'POST', 'DELETE', 'OPTIONS'],
+        allowedHeaders: ['Content-Type', 'Accept', 'Authorization'],
+        credentials: false,
+    });
+    app.register(jwtPlugin);
 
-  app.register(jwtPlugin);
-  app.register(usersSwaggerPlugin, {});
-  app.register(kpisSwaggerPlugin, {});
-  app.register(ordersSwaggerPlugin, {});
+    app.register(
+        async (fastify) => {
+            await userRoutes(fastify);
+            await swaggerRoutes(fastify)
+        },
+        { prefix: "/api" }
+    );
 
-  app.register(
-    async (fastify) => {
-      userRoutes(fastify);
-    },
-    { prefix: "/api" }
-  );
-
-  return app;
+    return app;
 }

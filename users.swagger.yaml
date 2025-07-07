@@ -4,7 +4,7 @@ info:
   description: API para gestionar usuarios
   version: 1.0.0
 servers:
-  - url: /dev/api
+  - url: https://r36c7jyp0b.execute-api.us-east-1.amazonaws.com/dev/api
     description: Stage DEV
     
   - url: /api

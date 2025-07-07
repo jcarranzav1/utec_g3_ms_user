@@ -7,7 +7,8 @@
     "test": "echo \"Error: no test specified\" && exit 1",
     "build": "tsc",
     "deploy": "pnpm run build && cross-env NODE_ENV=develop serverless deploy",
-    "offline": "cross-env NODE_ENV=local serverless offline "
+    "offline": "cross-env NODE_ENV=local serverless offline ",
+    "build:swagger-static": "rm -rf swagger-static && mkdir -p swagger-static/swagger-ui && cp -R node_modules/@fastify/swagger-ui/static/* swagger-static/swagger-ui && cp *.swagger.yaml swagger-static/ && cp swagger-initializer.js swagger-static/swagger-ui/"
   },
   "keywords": [],
   "author": "",
@@ -32,6 +33,7 @@
     "@aws-sdk/client-dynamodb": "^3.821.0",
     "@aws-sdk/util-dynamodb": "^3.821.0",
     "@fastify/aws-lambda": "^5.1.4",
+    "@fastify/cors": "^11.0.1",
     "@fastify/jwt": "^9.1.0",
     "@fastify/swagger": "^9.5.1",
     "@fastify/swagger-ui": "^5.2.3",

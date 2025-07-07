@@ -11,6 +11,7 @@ const envSchema = z.object({
   USERS_TABLE: z.string().min(1, "USERS_TABLE is required"),
   JWT_SECRET: z.string().min(1, "JWT_SECRET is required"),
   NODE_ENV: z.string().min(1, "NODE_END IS REQUIRED"),
+  CDN: z.string().min(1, "CDN is required"),
 });
 export type Env = z.infer<typeof envSchema>;
 

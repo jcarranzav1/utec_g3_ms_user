@@ -17,3 +17,9 @@ export enum StageEnum {
   DEVELOP = "develop",
   PRODUCTION = "production",
 }
+
+export enum SwaggerEnum {
+  USERS = "users",
+  KPIS = "kpis",
+  ORDERS = "orders",
+}

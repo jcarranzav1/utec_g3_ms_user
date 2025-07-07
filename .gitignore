@@ -67,3 +67,5 @@ firebase-connection.json
 
 # esbuild output
 .esbuild/
+
+swagger-static/

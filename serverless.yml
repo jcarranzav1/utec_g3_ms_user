@@ -15,33 +15,34 @@ provider:
   runtime: nodejs20.x
   region: us-east-1
   environment:
-    NODE_ENV:               ${env:NODE_ENV}
-    USERS_TABLE:               ${env:USERS_TABLE}
-    JWT_SECRET:                ${env:JWT_SECRET}
-    REST_API_ID:               ${env:REST_API_ID}
+    NODE_ENV: ${env:NODE_ENV}
+    USERS_TABLE: ${env:USERS_TABLE}
+    JWT_SECRET: ${env:JWT_SECRET}
+    REST_API_ID: ${env:REST_API_ID}
     REST_API_ROOT_RESOURCE_ID: ${env:REST_API_ROOT_RESOURCE_ID}
+    CDN: ${env:CDN}
 
   apiGateway:
     restApiId: ${env:REST_API_ID}
     restApiRootResourceId: ${env:REST_API_ROOT_RESOURCE_ID}
 
   iamRoleStatements:
-  - Effect: Allow
-    Action:
-      - dynamodb:PutItem
-      - dynamodb:GetItem
-      - dynamodb:Query
-      - dynamodb:UpdateItem
-    Resource:
-      - arn:aws:dynamodb:${self:provider.region}:*:table/${env:USERS_TABLE}
-      - arn:aws:dynamodb:${self:provider.region}:*:table/${env:USERS_TABLE}/index/EmailIndex
+    - Effect: Allow
+      Action:
+        - dynamodb:PutItem
+        - dynamodb:GetItem
+        - dynamodb:Query
+        - dynamodb:UpdateItem
+      Resource:
+        - arn:aws:dynamodb:${self:provider.region}:*:table/${env:USERS_TABLE}
+        - arn:aws:dynamodb:${self:provider.region}:*:table/${env:USERS_TABLE}/index/EmailIndex
 
-  - Effect: Allow
-    Action:
-      - logs:CreateLogGroup
-      - logs:CreateLogStream
-      - logs:PutLogEvents
-    Resource: "arn:aws:logs:${self:provider.region}:*:log-group:/aws/lambda/*"
+    - Effect: Allow
+      Action:
+        - logs:CreateLogGroup
+        - logs:CreateLogStream
+        - logs:PutLogEvents
+      Resource: "arn:aws:logs:${self:provider.region}:*:log-group:/aws/lambda/*"
 
 functions:
   api:
@@ -51,7 +52,13 @@ functions:
       - http:
           path: users/health
           method: get
-          cors: true
+          cors:
+            origin: '*'
+            headers:
+              - 'Content-Type'
+              - 'Accept'
+              - 'Authorization'
+            allowCredentials: false
 
       - http:
           path: users
@@ -79,29 +86,16 @@ functions:
           cors: true
 
       - http:
-          path: docs/users/{proxy+}
-          method: any
-          cors: true
-
-      - http:
           path: docs/kpis
           method: get
           cors: true
 
-      - http:
-          path: docs/kpis/{proxy+}
-          method: any
-          cors: true
 
       - http:
           path: docs/orders
           method: get
           cors: true
 
-      - http:
-          path: docs/orders/{proxy+}
-          method: any
-          cors: true
 custom:
   esbuild:
     bundle: true
@@ -112,7 +106,6 @@ custom:
     target: "node22"
     platform: "node"
     concurrency: 10
-    config: esbuild.config.js
 
   serverless-offline:
     prefix: api
