@@ -1,0 +1,102 @@
+openapi: 3.0.3
+info:
+  title: Products API
+  description: Endpoint para obtener productos por tienda y categoría.
+  version: 1.0.0
+
+servers:
+    - url: https://r36c7jyp0b.execute-api.us-east-1.amazonaws.com/dev/api
+      description: Stage DEV
+
+paths:
+  /products:
+    get:
+      summary: Obtener productos por tienda y categoría
+      description: Retorna la lista de productos según la tienda y categoría especificada.
+      parameters:
+        - name: store_id
+          in: query
+          required: true
+          schema:
+            type: string
+            example: miraflores1
+        - name: category
+          in: query
+          required: true
+          schema:
+            type: string
+            example: Juegos
+      responses:
+        '200':
+          description: Respuesta exitosa con productos
+          content:
+            application/json:
+              schema:
+                type: array
+                items:
+                  type: object
+                  properties:
+                    sku_id:
+                      type: string
+                      description: Identificador único del producto (SKU).
+                    name:
+                      type: string
+                      description: Nombre del producto.
+                    price:
+                      type: number
+                      format: float
+                      description: Precio del producto.
+                    status:
+                      type: string
+                    category:
+                      type: string
+                      description: Categoría del producto.
+                    brand:
+                      type: string
+                      description: Marca del producto.
+                    image:
+                      type: string
+                      description: URL de la imagen del producto (puede estar vacío si no se provee).
+                example:
+                  - sku_id: "12345"
+                    name: "Mario Kart 8 Deluxe"
+                    price: 250.0
+                    status: "disponible"
+                    category: "Juegos"
+                    brand: "Nintendo"
+                    image: ""
+                  - sku_id: "67890"
+                    name: "PlayStation 5"
+                    price: 2900.0
+                    status: "agotado"
+                    category: "Consolas"
+                    brand: "Sony"
+                    image: "https://mistiendas3.com/images/ps5.png"
+        '400':
+          description: Faltan parámetros obligatorios
+          content:
+            application/json:
+              schema:
+                type: object
+                properties:
+                  error:
+                    type: string
+        '401':
+          description: Token inválido o no proporcionado
+          content:
+            application/json:
+              schema:
+                type: object
+                properties:
+                  error:
+                    type: string
+                    example: Token inválido o no proporcionado
+      security:
+        - bearerAuth: []
+
+components:
+  securitySchemes:
+    bearerAuth:
+      type: http
+      scheme: bearer
+      bearerFormat: JWT

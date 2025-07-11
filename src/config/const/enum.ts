@@ -22,4 +22,5 @@ export enum SwaggerEnum {
   USERS = "users",
   KPIS = "kpis",
   ORDERS = "orders",
+  PRODUCTS = "products",
 }
