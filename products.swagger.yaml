@@ -87,6 +87,8 @@ paths:
     options:
       summary: Respuesta CORS preflight
       description: Responde a preflight requests con los headers necesarios para CORS.
+      tags:
+        - Orders
       responses:
         '200':
           description: Respuesta para preflight CORS
