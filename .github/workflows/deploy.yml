@@ -19,6 +19,7 @@ jobs:
       REST_API_ROOT_RESOURCE_ID: ${{ secrets.REST_API_ROOT_RESOURCE_ID }}
       SWAGGER_BUCKET: ${{ secrets.SWAGGER_BUCKET }}
       CLOUDFRONT_DISTRIBUTION_ID: ${{ secrets.CLOUDFRONT_DISTRIBUTION_ID }}
+      CDN: ${{ secrets.CDN }}
 
     steps:
       - name: Checkout code
