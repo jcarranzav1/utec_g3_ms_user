@@ -17,6 +17,8 @@ jobs:
       JWT_SECRET: ${{ secrets.JWT_SECRET }}
       REST_API_ID: ${{ secrets.REST_API_ID }}
       REST_API_ROOT_RESOURCE_ID: ${{ secrets.REST_API_ROOT_RESOURCE_ID }}
+      SWAGGER_BUCKET: ${{ secrets.SWAGGER_BUCKET }}
+      CLOUDFRONT_DISTRIBUTION_ID: ${{ secrets.CLOUDFRONT_DISTRIBUTION_ID }}
 
     steps:
       - name: Checkout code
