@@ -5,14 +5,15 @@ info:
   version: 1.0.0
 
 servers:
-    - url: https://r36c7jyp0b.execute-api.us-east-1.amazonaws.com/dev/api
-      description: Stage DEV
+  - url: https://r36c7jyp0b.execute-api.us-east-1.amazonaws.com/dev
 
 paths:
   /products:
     get:
       summary: Obtener productos por tienda y categoría
       description: Retorna la lista de productos según la tienda y categoría especificada.
+      tags:
+        - Products
       parameters:
         - name: store_id
           in: query
@@ -32,46 +33,35 @@ paths:
           content:
             application/json:
               schema:
-                type: array
-                items:
-                  type: object
-                  properties:
-                    sku_id:
-                      type: string
-                      description: Identificador único del producto (SKU).
-                    name:
-                      type: string
-                      description: Nombre del producto.
-                    price:
-                      type: number
-                      format: float
-                      description: Precio del producto.
-                    status:
-                      type: string
-                    category:
-                      type: string
-                      description: Categoría del producto.
-                    brand:
-                      type: string
-                      description: Marca del producto.
-                    image:
-                      type: string
-                      description: URL de la imagen del producto (puede estar vacío si no se provee).
-                example:
-                  - sku_id: "12345"
-                    name: "Mario Kart 8 Deluxe"
-                    price: 250.0
-                    status: "disponible"
-                    category: "Juegos"
-                    brand: "Nintendo"
-                    image: ""
-                  - sku_id: "67890"
-                    name: "PlayStation 5"
-                    price: 2900.0
-                    status: "agotado"
-                    category: "Consolas"
-                    brand: "Sony"
-                    image: "https://mistiendas3.com/images/ps5.png"
+                type: object
+                properties:
+                  Status:
+                    type: integer
+                    example: 200
+                  Message:
+                    type: string
+                    example: Productos encontrados
+                  Data:
+                    type: array
+                    items:
+                      $ref: '#/components/schemas/Product'
+              example:
+                Status: 200
+                Message: Productos encontrados
+                Data:
+                  - sku_id: JUE-NINTENDO-METROIDDREAD
+                    brand: Nintendo
+                    category: Juegos
+                    name: Metroid Dread
+                    price: 165
+                    status: inactive
+                  - sku_id: JUE-SONY-SPIDERMANMILES
+                    brand: Sony
+                    category: Juegos
+                    name: Spider-Man Miles Morales
+                    price: 195
+                    status: active
+                  # ... (agrega más si deseas)
         '400':
           description: Faltan parámetros obligatorios
           content:
@@ -81,6 +71,7 @@ paths:
                 properties:
                   error:
                     type: string
+                    example: Faltan parámetros obligatorios store_id y category
         '401':
           description: Token inválido o no proporcionado
           content:
@@ -93,10 +84,61 @@ paths:
                     example: Token inválido o no proporcionado
       security:
         - bearerAuth: []
-
+    options:
+      summary: Respuesta CORS preflight
+      description: Responde a preflight requests con los headers necesarios para CORS.
+      responses:
+        '200':
+          description: Respuesta para preflight CORS
+          headers:
+            Access-Control-Allow-Origin:
+              schema:
+                type: string
+                example: "*"
+            Access-Control-Allow-Methods:
+              schema:
+                type: string
+                example: "GET, OPTIONS"
+            Access-Control-Allow-Headers:
+              schema:
+                type: string
+                example: "Content-Type, Authorization"
+          content:
+            application/json:
+              schema:
+                type: string
+                example: ""
 components:
   securitySchemes:
     bearerAuth:
       type: http
       scheme: bearer
       bearerFormat: JWT
+  schemas:
+    Product:
+      type: object
+      properties:
+        sku_id:
+          type: string
+          description: SKU del producto.
+          example: JUE-NINTENDO-METROIDDREAD
+        brand:
+          type: string
+          description: Marca del producto.
+          example: Nintendo
+        category:
+          type: string
+          description: Categoría del producto.
+          example: Juegos
+        name:
+          type: string
+          description: Nombre del producto.
+          example: Metroid Dread
+        price:
+          type: number
+          description: Precio del producto.
+          example: 165
+        status:
+          type: string
+          description: Estado del producto.
+          example: inactive
